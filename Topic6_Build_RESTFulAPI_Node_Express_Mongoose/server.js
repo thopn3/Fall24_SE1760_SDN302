@@ -4,7 +4,9 @@ const httpErrors = require("http-errors");
 const bodyParser = require("body-parser");
 const Db = require("./models");
 const CategoryRouter = require("./routes/category.route");
+const ProductRouter = require("./routes/product.route");
 require("dotenv").config();
+const cors = require("cors");
 
 // Khoi tao ung dung Express web server
 const app = express();
@@ -12,6 +14,7 @@ const app = express();
 // Them cac middlewares kiem soat cac requests, responses
 app.use(morgan("dev"));
 app.use(bodyParser.json());
+app.use(cors());
 
 // Dinh tuyen tai cap do root (root router)
 app.get("/", async (req, res, next) => {
@@ -20,6 +23,7 @@ app.get("/", async (req, res, next) => {
 
 // Recieve requests
 app.use("/category", CategoryRouter);
+app.use("/product", ProductRouter);
 
 // Them middleware kiem soat requests loi cho web server
 app.use(async(req, res, next) => {

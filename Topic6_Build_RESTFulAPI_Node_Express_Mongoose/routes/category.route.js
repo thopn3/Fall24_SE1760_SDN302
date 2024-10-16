@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const Db = require("../models");
+const { CategoryController } = require("../controllers");
 
 const CategoryRouter = express.Router();
 CategoryRouter.use(bodyParser.json());
@@ -10,7 +11,7 @@ CategoryRouter.post("/create", async(req, res, next) => {
     try {
         // Get data from request object
         const {name, description} = req.body;
-        const newCategory = new Db.Category({name, description});
+        const newCategory = new Db.Categories({name, description});
 
         // Insert one
         await newCategory.save().then(newDoc => {
@@ -26,5 +27,7 @@ CategoryRouter.post("/create", async(req, res, next) => {
         next(error);
     }
 });
+
+CategoryRouter.post("/add", CategoryController.createWithProducts);
 
 module.exports = CategoryRouter;
